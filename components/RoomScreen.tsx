@@ -4,15 +4,13 @@ import { AudioSession, LiveKitRoom } from '@livekit/react-native';
 import RoomContent from './RoomContent.tsx';
 
 const registerUser = async (username: string): Promise<string> => {
-  console.log(JSON.stringify({ username }))
-
-  return fetch('http://10.0.2.2:3000/register', {
+  return fetch('https://livekit-youtube-repro-server.onrender.com/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ username }),
-  }).then(res => res.json()).then(data => data.token);
+  }).then(res => res.json()).then(data => data.token).catch(console.error);
 };
 
 function RoomScreen() {
