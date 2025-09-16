@@ -1,4 +1,4 @@
-import { Button, StyleSheet, TextInput, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useCallback, useEffect, useState } from 'react';
 import { AudioSession, LiveKitRoom } from '@livekit/react-native';
 import RoomContent from './RoomContent.tsx';
@@ -14,7 +14,6 @@ const registerUser = async (username: string): Promise<string> => {
 };
 
 function RoomScreen() {
-  const [username, setUsername] = useState('');
   const [token, setToken] = useState<string | null>(null);
   const [isAudioSesionReady, setIsAudioSessionRedy] = useState(false);
 
@@ -66,9 +65,7 @@ function RoomScreen() {
   }, []);
 
   useEffect(() => {
-    const randomUsername = 'user' + Math.random().toString(36).substring(2, 15);
-    setUsername(randomUsername);
-    doRegisterUser(randomUsername);
+    doRegisterUser('user' + Math.random().toString(36).substring(2, 15));
   }, [doRegisterUser]);
 
   if (token && isAudioSesionReady) {
@@ -90,9 +87,8 @@ function RoomScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Enter your username" value={username} onChangeText={setUsername} />
-        <Button title="Validate" onPress={() => doRegisterUser(username)} />
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
       </View>
     </View>
   );
@@ -102,17 +98,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  inputContainer: {
+  loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: 'black',
-    padding: 10,
-    margin: 10,
-    width: '80%',
   },
 });
 
