@@ -12,6 +12,8 @@ import com.facebook.react.defaults.DefaultReactNativeHost
 import com.oney.WebRTCModule.WebRTCModuleOptions;
 import android.media.AudioAttributes
 import org.webrtc.audio.JavaAudioDeviceModule;
+import com.livekit.reactnative.LiveKitReactNative
+import com.livekit.reactnative.audio.AudioType
 
 class MainApplication : Application(), ReactApplication {
 
@@ -35,7 +37,6 @@ class MainApplication : Application(), ReactApplication {
     get() = getDefaultReactHost(applicationContext, reactNativeHost)
 
 	override fun onCreate() {
-    super.onCreate()
 		// append this before WebRTCModule initializes
 		val options = WebRTCModuleOptions.getInstance()
 		val audioAttributes = AudioAttributes.Builder()
@@ -45,6 +46,10 @@ class MainApplication : Application(), ReactApplication {
 		options.audioDeviceModule = JavaAudioDeviceModule.builder(this)
 			.setAudioAttributes(audioAttributes)
 			.createAudioDeviceModule()
+
+    LiveKitReactNative.setup(this, AudioType.CommunicationAudioType())
+
+    super.onCreate()
     loadReactNative(this)
 	}
 }
