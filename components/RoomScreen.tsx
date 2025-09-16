@@ -60,7 +60,7 @@ function RoomScreen() {
 
   const doRegisterUser = useCallback(async (validatedUsername: string) => {
     if (validatedUsername) {
-      setToken(await registerUser(validatedUsername));
+      setToken(await registerUser(validatedUsername)); // <-
     }
   }, []);
 
