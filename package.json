@@ -10,10 +10,16 @@
     "test": "jest"
   },
   "dependencies": {
+    "@babel/plugin-transform-export-namespace-from": "^7.27.1",
+    "@livekit/react-native": "^2.9.1",
+    "@livekit/react-native-webrtc": "^137.0.1",
+    "@react-native/new-app-screen": "0.81.4",
+    "livekit-client": "^2.15.7",
     "react": "19.1.0",
     "react-native": "0.81.4",
-    "@react-native/new-app-screen": "0.81.4",
-    "react-native-safe-area-context": "^5.5.2"
+    "react-native-safe-area-context": "^5.5.2",
+    "react-native-webview": "^13.16.0",
+    "react-native-youtube-iframe": "^2.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -37,5 +43,6 @@
   },
   "engines": {
     "node": ">=20"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }
