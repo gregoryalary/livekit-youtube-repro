@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native';
-import { useTracks } from '@livekit/react-native';
+import { StyleSheet, Text, View, ScrollView, Dimensions, Button } from 'react-native';
+import { useLocalParticipant, useTracks } from '@livekit/react-native';
 import { Track } from 'livekit-client';
 import YoutubePlayer from "react-native-youtube-iframe";
 import TrackCard from './TrackCard';
@@ -7,6 +7,7 @@ import TrackCard from './TrackCard';
 function RoomContent() {
   // Get all camera tracks from participants
   const tracks = useTracks([Track.Source.Camera], { onlySubscribed: false });
+  const { localParticipant } = useLocalParticipant();
 
   const { width: screenWidth } = Dimensions.get('window');
   const videoWidth = (screenWidth - 60) / 2; // 2 columns with padding
@@ -20,10 +21,19 @@ function RoomContent() {
         />
       </View>
 
-      <Text style={styles.roomTitle}>Live Room</Text>
       <Text style={styles.participantCount}>
         {tracks.length} participant{tracks.length !== 1 ? 's' : ''}
       </Text>
+
+      <Button
+        title={localParticipant.isMicrophoneEnabled ? "Stop audio" : "Start audio"}
+        onPress={() => localParticipant.setMicrophoneEnabled(!localParticipant.isMicrophoneEnabled)}
+      />
+
+      <Button
+        title={localParticipant.isCameraEnabled ? "Stop video" : "Start video"}
+        onPress={() => localParticipant.setCameraEnabled(!localParticipant.isCameraEnabled)}
+      />
     
       <ScrollView 
         style={styles.scrollView}
@@ -49,6 +59,7 @@ const styles = StyleSheet.create({
   roomContainer: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+    gap: 20,
   },
   youtubeContainer: {
     width: '100%',
@@ -58,14 +69,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 5,
-    marginTop: 5,
     color: '#333',
   },
   participantCount: {
     fontSize: 16,
     textAlign: 'center',
-    marginBottom: 20,
     color: '#666',
   },
   scrollView: {
